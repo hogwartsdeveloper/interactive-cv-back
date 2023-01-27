@@ -1,6 +1,8 @@
 import { Container, ContainerModule, interfaces } from 'inversify';
 import { App } from './app';
 import { types } from './types';
+import { ILogger } from './logger/logger.interface';
+import { LoggerService } from './logger/logger.service';
 
 export interface IBootstrapReturn {
 	appContainer: Container;
@@ -9,6 +11,7 @@ export interface IBootstrapReturn {
 
 export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
 	bind<App>(types.Application).to(App);
+	bind<ILogger>(types.Logger).to(LoggerService);
 });
 
 function bootstrap(): IBootstrapReturn {

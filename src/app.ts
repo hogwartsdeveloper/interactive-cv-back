@@ -1,7 +1,9 @@
 import 'reflect-metadata';
 import express, { Express } from 'express';
 import { Server } from 'http';
-import { injectable } from 'inversify';
+import { inject, injectable } from 'inversify';
+import { ILogger } from './logger/logger.interface';
+import { types } from './types';
 
 @injectable()
 export class App {
@@ -9,12 +11,14 @@ export class App {
 	server: Server;
 	port: number;
 
-	constructor() {
+	constructor(@inject(types.Logger) private loggerService: ILogger) {
 		this.app = express();
 		this.port = 8000;
 	}
 
 	public init(): void {
-		this.server = this.app.listen(this.port, () => console.log('start server'));
+		this.server = this.app.listen(this.port, () =>
+			this.loggerService.log('server started is port: ' + this.port),
+		);
 	}
 }
