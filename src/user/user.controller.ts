@@ -4,10 +4,15 @@ import { Request, Response, NextFunction } from 'express';
 import { inject, injectable } from 'inversify';
 import { types } from '../types';
 import { ILogger } from '../logger/logger.interface';
+import { IUserService } from './service/user.service.interface';
+import { HttpError } from '../error/http-error.class';
 
 @injectable()
 export class UserController extends BaseController implements IUserController {
-	constructor(@inject(types.Logger) private loggerService: ILogger) {
+	constructor(
+		@inject(types.Logger) private loggerService: ILogger,
+		@inject(types.UserService) private userService: IUserService,
+	) {
 		super(loggerService);
 		this.bindRoutes([
 			{
@@ -35,7 +40,12 @@ export class UserController extends BaseController implements IUserController {
 		this.ok(res, 'Login');
 	}
 
-	register(req: Request, res: Response, next: NextFunction): void {
-		this.ok(res, 'Register');
+	async register({ body }: Request, res: Response, next: NextFunction): Promise<void> {
+		const result = await this.userService.create(body);
+		if (!result) {
+			return next(new HttpError(422, 'User exist'));
+		}
+
+		this.ok(res, { email: result.email, id: result.id });
 	}
 }
