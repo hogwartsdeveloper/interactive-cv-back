@@ -3,6 +3,8 @@ import { App } from './app';
 import { types } from './types';
 import { ILogger } from './logger/logger.interface';
 import { LoggerService } from './logger/logger.service';
+import { IUserController } from './user/user.controller.interface';
+import { UserController } from './user/user.controller';
 
 export interface IBootstrapReturn {
 	appContainer: Container;
@@ -12,6 +14,7 @@ export interface IBootstrapReturn {
 export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
 	bind<App>(types.Application).to(App);
 	bind<ILogger>(types.Logger).to(LoggerService);
+	bind<IUserController>(types.UserController).to(UserController);
 });
 
 function bootstrap(): IBootstrapReturn {
