@@ -7,6 +7,8 @@ import { types } from './types';
 import { UserController } from './user/user.controller';
 import { json } from 'body-parser';
 import { ExceptionFilter } from './error/exception.filter';
+import { AuthMiddleware } from './comman/auth.middleware';
+import { ConfigService } from './config/config.service';
 
 @injectable()
 export class App {
@@ -18,6 +20,7 @@ export class App {
 		@inject(types.Logger) private loggerService: ILogger,
 		@inject(types.UserController) private userController: UserController,
 		@inject(types.ExceptionFilter) private exceptionFilter: ExceptionFilter,
+		@inject(types.ConfigService) private configService: ConfigService,
 	) {
 		this.app = express();
 		this.port = 8000;
@@ -29,6 +32,8 @@ export class App {
 
 	private useMiddleware(): void {
 		this.app.use(json());
+		const authMiddleware = new AuthMiddleware(this.configService.get('SECRET'));
+		this.app.use(authMiddleware.execute.bind(authMiddleware));
 	}
 
 	private useExceptionFilter(): void {

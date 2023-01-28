@@ -11,6 +11,7 @@ import { UserRegisterDto } from './dto/user-register.dto';
 import { UserLoginDto } from './dto/user-login.dto';
 import { sign } from 'jsonwebtoken';
 import { IConfigService } from '../config/config.service.interface';
+import { AuthGuard } from '../comman/auth.guard';
 
 @injectable()
 export class UserController extends BaseController implements IUserController {
@@ -37,11 +38,13 @@ export class UserController extends BaseController implements IUserController {
 				path: '/info',
 				method: 'get',
 				func: this.info,
+				middlewares: [new AuthGuard()],
 			},
 		]);
 	}
-	info(req: Request, res: Response, next: NextFunction): void {
-		this.ok(res, 'Info');
+	async info({ user }: Request, res: Response, next: NextFunction): Promise<void> {
+		const userData = await this.userService.getInfo(user as string);
+		this.ok(res, { id: userData?.id, email: userData?.email });
 	}
 
 	async login(
