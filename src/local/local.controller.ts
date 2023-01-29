@@ -32,64 +32,6 @@ export class LocalController extends BaseController implements ILocalController 
 		]);
 	}
 
-	/**
-	 * @swagger
-	 * /local:
-	 *   post:
-	 *     description: add local to the application
-	 *     tags: [Local]
-	 *     produces:
-	 *       - application/json
-	 *     requestBody:
-	 *        required: true
-	 *        content:
-	 *          application/json:
-	 *            schema:
-	 *              type: object
-	 *              properties:
-	 *                code:
-	 *                  type: string
-	 *                  description: The local code.
-	 *                name:
-	 *                  type: object
-	 *                  properties:
-	 *                  	en:
-	 *                 			en: string
-	 *                 			description: The local en
-	 *                    kz:
-	 *                      kz: string
-	 *                      description: The local kz
-	 *                    ru:
-	 *                      ru: string
-	 *                      description: The local ru
-	 *
-	 *     responses:
-	 *       200:
-	 *         description: registration
-	 *         content:
-	 *            application/json:
-	 *              schema:
-	 *                type: object
-	 *                properties:
-	 *                  id:
-	 *                    type: integer
-	 *                    description: The local id
-	 *                  code:
-	 *                    type: string
-	 *                    description: The local code
-	 *                  name:
-	 *                  	type: object
-	 *                  	properties:
-	 *                  		en:
-	 *                      	en: string
-	 *                      	description: The local en
-	 *                    	kz:
-	 *                      	kz: string
-	 *                      	description: The local kz
-	 *                    	ru:
-	 *                      	ru: string
-	 *                      	description: The local ru
-	 */
 	async add(
 		{ body }: Request<{}, {}, LocalCreateDto>,
 		res: Response,
@@ -99,32 +41,9 @@ export class LocalController extends BaseController implements ILocalController 
 		if (!result) {
 			return next(new HttpError(422, 'Local exist'));
 		}
-		this.ok(res, { id: result.id, code: result.code });
+		this.ok(res, { id: result.id, code: result.code, name: result?.name });
 	}
 
-	/**
-	 * @swagger
-	 * /local:
-	 *   get:
-	 *     description: get all local
-	 *     tags: [Local]
-	 *     produces:
-	 *       - application/json
-	 *     responses:
-	 *       200:
-	 *         description: info
-	 *         content:
-	 *            application/json:
-	 *              schema:
-	 *                type: object
-	 *                properties:
-	 *                  id:
-	 *                    type: integer
-	 *                    description: The local id
-	 *                  code:
-	 *                    type: string
-	 *                    description: The local code.
-	 */
 	async get(req: Request, res: Response, next: NextFunction): Promise<void> {
 		const result = await this.localService.getAll();
 		this.ok(res, { result });

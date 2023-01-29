@@ -5,10 +5,11 @@ import { inject, injectable } from 'inversify';
 import { types } from '../../types';
 import { LocalRepository } from '../repository/local.repository';
 import { Local } from '../entity/local.entity';
+import { ILocalRepository } from '../repository/local.repository.interface';
 
 @injectable()
 export class LocalService implements ILocalService {
-	constructor(@inject(types.LocalRepository) private localRepository: LocalRepository) {}
+	constructor(@inject(types.LocalRepository) private localRepository: ILocalRepository) {}
 	async create(local: LocalCreateDto): Promise<LocalModel | null> {
 		const existed = await this.localRepository.find(local.code);
 		if (existed) {

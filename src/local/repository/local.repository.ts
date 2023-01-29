@@ -15,11 +15,12 @@ export class LocalRepository implements ILocalRepository {
 				code: local.code,
 				name: { create: { en: local.name.en, kz: local.name.kz, ru: local.name.ru } },
 			},
+			include: { name: true },
 		});
 	}
 
-	getAll(): Promise<LocalModel[] | null> {
-		return this.prismaService.client.localModel.findMany();
+	async getAll(): Promise<LocalModel[] | null> {
+		return this.prismaService.client.localModel.findMany({ include: { name: true } });
 	}
 
 	async find(code: string): Promise<LocalModel | null> {
