@@ -21,4 +21,8 @@ export class LocalRepository implements ILocalRepository {
 	getAll(): Promise<LocalModel[] | null> {
 		return this.prismaService.client.localModel.findMany();
 	}
+
+	async find(code: string): Promise<LocalModel | null> {
+		return this.prismaService.client.localModel.findFirst({ where: { code } });
+	}
 }

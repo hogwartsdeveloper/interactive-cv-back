@@ -18,6 +18,8 @@ import { ILocalController } from './local/local.controller.interface';
 import { LocalController } from './local/local.controller';
 import { ILocalRepository } from './local/repository/local.repository.interface';
 import { LocalRepository } from './local/repository/local.repository';
+import { ILocalService } from './local/service/local.service.interface';
+import { LocalService } from './local/service/local.service';
 
 export interface IBootstrapReturn {
 	appContainer: Container;
@@ -35,6 +37,7 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
 	bind<IUserService>(types.UserService).to(UserService);
 	bind<ILocalController>(types.LocalController).to(LocalController);
 	bind<ILocalRepository>(types.LocalRepository).to(LocalRepository);
+	bind<ILocalService>(types.LocalService).to(LocalService);
 });
 
 function bootstrap(): IBootstrapReturn {
