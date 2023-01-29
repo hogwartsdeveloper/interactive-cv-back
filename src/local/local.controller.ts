@@ -4,6 +4,8 @@ import { BaseController } from '../comman/base.controller';
 import { inject, injectable } from 'inversify';
 import { types } from '../types';
 import { ILogger } from '../logger/logger.interface';
+import { ValidateMiddleware } from '../comman/validate.middleware';
+import { LocalCreateDto } from './dto/local-create.dto';
 
 @injectable()
 export class LocalController extends BaseController implements ILocalController {
@@ -14,6 +16,7 @@ export class LocalController extends BaseController implements ILocalController 
 				path: '/',
 				method: 'post',
 				func: this.add,
+				middlewares: [new ValidateMiddleware(LocalCreateDto)],
 			},
 			{
 				path: '/',
