@@ -47,6 +47,39 @@ export class UserController extends BaseController implements IUserController {
 		this.ok(res, { id: userData?.id, email: userData?.email });
 	}
 
+	/**
+	 * @swagger
+	 * /user/login:
+	 *    post:
+	 *      description: Login to the application
+	 *      tags: [User]
+	 *      produces:
+	 *       - application/json
+	 *      requestBody:
+	 *        required: true
+	 *        content:
+	 *          application/json:
+	 *            schema:
+	 *              type: object
+	 *              properties:
+	 *                email:
+	 *                  type: string
+	 *                  description: The user email
+	 *                password:
+	 *                  type: string
+	 *                  description: The user password
+	 *      responses:
+	 *        200:
+	 *          description: JWT
+	 *          content:
+	 *            application/json:
+	 *              schema:
+	 *                type: object
+	 *                properties:
+	 *                  jwt:
+	 *                    type: string
+	 *                    description: The jsonwebtoken
+	 */
 	async login(
 		{ body }: Request<{}, {}, UserLoginDto>,
 		res: Response,
@@ -61,6 +94,45 @@ export class UserController extends BaseController implements IUserController {
 		this.ok(res, { jwt });
 	}
 
+	/**
+	 * @swagger
+	 * /user/register:
+	 *   post:
+	 *     description: Registration to the application
+	 *     tags: [User]
+	 *     produces:
+	 *       - application/json
+	 *     requestBody:
+	 *        required: true
+	 *        content:
+	 *          application/json:
+	 *            schema:
+	 *              type: object
+	 *              properties:
+	 *                email:
+	 *                  type: string
+	 *                  description: The user email.
+	 *                name:
+	 *                  type: string
+	 *                  description: The user name.
+	 *                password:
+	 *                  type: string
+	 *                  description: The user password.
+	 *     responses:
+	 *       200:
+	 *         description: registration
+	 *         content:
+	 *            application/json:
+	 *              schema:
+	 *                type: object
+	 *                properties:
+	 *                  id:
+	 *                    type: integer
+	 *                    description: The user id
+	 *                  email:
+	 *                    type: string
+	 *                    description: The user email
+	 */
 	async register(
 		{ body }: Request<{}, {}, UserRegisterDto>,
 		res: Response,

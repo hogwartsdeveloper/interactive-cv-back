@@ -31,11 +31,11 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
 	bind<IUserService>(types.UserService).to(UserService);
 });
 
-async function bootstrap(): Promise<IBootstrapReturn> {
+function bootstrap(): IBootstrapReturn {
 	const appContainer = new Container();
 	appContainer.load(appBindings);
 	const app = appContainer.get<App>(types.Application);
-	await app.init();
+	app.init();
 	return { app, appContainer };
 }
 

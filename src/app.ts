@@ -43,13 +43,13 @@ export class App {
 		this.app.use(this.exceptionFilter.catch.bind(this.exceptionFilter));
 	}
 
-	private async useSwagger(): Promise<void> {
-		const swaggerSpec = await swaggerJSDoc(options);
-		this.app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+	private useSwagger(): void {
+		const openapiSpecification = swaggerJSDoc(options);
+		this.app.use('/swagger', swaggerUi.serve, swaggerUi.setup(openapiSpecification));
 	}
 
-	public async init(): Promise<void> {
-		await this.useSwagger();
+	public init(): void {
+		this.useSwagger();
 		this.useMiddleware();
 		this.useRoutes();
 		this.useExceptionFilter();
