@@ -14,6 +14,8 @@ import { IConfigService } from './config/config.service.interface';
 import { ConfigService } from './config/config.service';
 import { IExceptionFilter } from './error/exception.filter.interface';
 import { ExceptionFilter } from './error/exception.filter';
+import { ILocalController } from './local/local.controller.interface';
+import { LocalController } from './local/local.controller';
 
 export interface IBootstrapReturn {
 	appContainer: Container;
@@ -22,13 +24,14 @@ export interface IBootstrapReturn {
 
 export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
 	bind<App>(types.Application).to(App);
-	bind<ILogger>(types.Logger).to(LoggerService);
-	bind<IConfigService>(types.ConfigService).to(ConfigService);
-	bind<PrismaService>(types.PrismaService).to(PrismaService);
+	bind<ILogger>(types.Logger).to(LoggerService).inSingletonScope();
+	bind<IConfigService>(types.ConfigService).to(ConfigService).inSingletonScope();
+	bind<PrismaService>(types.PrismaService).to(PrismaService).inSingletonScope();
 	bind<IExceptionFilter>(types.ExceptionFilter).to(ExceptionFilter);
 	bind<IUserController>(types.UserController).to(UserController);
 	bind<IUserRepository>(types.UserRepository).to(UserRepository);
 	bind<IUserService>(types.UserService).to(UserService);
+	bind<ILocalController>(types.LocalController).to(LocalController);
 });
 
 function bootstrap(): IBootstrapReturn {

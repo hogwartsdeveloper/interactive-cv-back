@@ -7,4 +7,5 @@ export const types = {
 	UserController: Symbol.for('UserController'),
 	UserRepository: Symbol.for('UserRepository'),
 	UserService: Symbol.for('UserService'),
+	LocalController: Symbol.for('LocalController'),
 };

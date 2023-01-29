@@ -12,6 +12,7 @@ import { ExceptionFilter } from './error/exception.filter';
 import { AuthMiddleware } from './comman/auth.middleware';
 import { ConfigService } from './config/config.service';
 import { options } from '../swagger.config';
+import { LocalController } from './local/local.controller';
 
 @injectable()
 export class App {
@@ -22,6 +23,7 @@ export class App {
 	constructor(
 		@inject(types.Logger) private loggerService: ILogger,
 		@inject(types.UserController) private userController: UserController,
+		@inject(types.LocalController) private localController: LocalController,
 		@inject(types.ExceptionFilter) private exceptionFilter: ExceptionFilter,
 		@inject(types.ConfigService) private configService: ConfigService,
 	) {
@@ -31,6 +33,7 @@ export class App {
 
 	private useRoutes(): void {
 		this.app.use('/user', this.userController.router);
+		this.app.use('/local', this.localController.router);
 	}
 
 	private useMiddleware(): void {
