@@ -16,6 +16,8 @@ import { IExceptionFilter } from './error/exception.filter.interface';
 import { ExceptionFilter } from './error/exception.filter';
 import { ILocalController } from './local/local.controller.interface';
 import { LocalController } from './local/local.controller';
+import { ILocalRepository } from './local/repository/local.repository.interface';
+import { LocalRepository } from './local/repository/local.repository';
 
 export interface IBootstrapReturn {
 	appContainer: Container;
@@ -32,6 +34,7 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
 	bind<IUserRepository>(types.UserRepository).to(UserRepository);
 	bind<IUserService>(types.UserService).to(UserService);
 	bind<ILocalController>(types.LocalController).to(LocalController);
+	bind<ILocalRepository>(types.LocalRepository).to(LocalRepository);
 });
 
 function bootstrap(): IBootstrapReturn {

@@ -16,3 +16,19 @@ model UserModel {
   name String
   password String
 }
+
+
+model LocalModel {
+  id Int @id @default(autoincrement())
+  code String
+  name LocalName?
+}
+
+model LocalName {
+  id Int @id @default(autoincrement())
+  en String
+  kz String
+  ru String
+  local LocalModel @relation(fields: [localId], references: [id])
+  localId Int @unique
+}

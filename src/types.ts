@@ -8,4 +8,5 @@ export const types = {
 	UserRepository: Symbol.for('UserRepository'),
 	UserService: Symbol.for('UserService'),
 	LocalController: Symbol.for('LocalController'),
+	LocalRepository: Symbol.for('LocalRepository'),
 };
