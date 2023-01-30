@@ -94,7 +94,7 @@ export class LocalController extends BaseController implements ILocalController 
 		res: Response,
 		next: NextFunction,
 	): Promise<void> {
-		const result = await this.localService.create(body);
+		const result: any = await this.localService.create(body);
 		if (!result) {
 			return next(new HttpError(422, 'Local exist'));
 		}
