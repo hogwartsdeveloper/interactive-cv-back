@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -15,6 +15,7 @@ model UserModel {
   email String
   name String
   password String
+  role Role @default(USER)
 }
 
 
@@ -31,4 +32,9 @@ model LocalName {
   ru String
   local LocalModel @relation(fields: [localId], references: [id])
   localId Int @unique
+}
+
+enum Role {
+  ADMIN
+  USER
 }
