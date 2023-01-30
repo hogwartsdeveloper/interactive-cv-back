@@ -9,6 +9,7 @@ import { LocalCreateDto } from './dto/local-create.dto';
 import { AuthGuard } from '../comman/auth.guard';
 import { ILocalService } from './service/local.service.interface';
 import { HttpError } from '../error/http-error.class';
+import { RoleGuard } from '../comman/role.guard';
 
 @injectable()
 export class LocalController extends BaseController implements ILocalController {
@@ -22,7 +23,7 @@ export class LocalController extends BaseController implements ILocalController 
 				path: '/',
 				method: 'post',
 				func: this.add,
-				middlewares: [new ValidateMiddleware(LocalCreateDto), new AuthGuard()],
+				middlewares: [new ValidateMiddleware(LocalCreateDto), new AuthGuard(), new RoleGuard()],
 			},
 			{
 				path: '/',

@@ -112,10 +112,11 @@ export class UserController extends BaseController implements IUserController {
 		next: NextFunction,
 	): Promise<void> {
 		const result = await this.userService.validate(body);
-		if (!result) {
+		const user = await this.userService.getInfo(body.email);
+		if (!result || !user) {
 			return next(new HttpError(401, 'User does not exist'));
 		}
-		const jwt = await this.signJWT(body.email, this.configService.get('SECRET'));
+		const jwt = await this.signJWT(body.email, user.role, this.configService.get('SECRET'));
 
 		this.ok(res, { jwt });
 	}
@@ -172,11 +173,12 @@ export class UserController extends BaseController implements IUserController {
 		this.ok(res, { email: result.email, id: result.id });
 	}
 
-	private signJWT(email: string, secret: string): Promise<string> {
+	private signJWT(email: string, role: string, secret: string): Promise<string> {
 		return new Promise<string>((res, rej) => {
 			sign(
 				{
 					email,
+					role,
 					iat: Math.floor(Date.now() / 1000),
 				},
 				secret,
