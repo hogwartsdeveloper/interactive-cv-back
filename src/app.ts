@@ -30,7 +30,7 @@ export class App {
 		@inject(types.PrismaService) private prismaService: PrismaService,
 	) {
 		this.app = express();
-		this.port = 8001;
+		this.port = 8000;
 	}
 
 	private useRoutes(): void {

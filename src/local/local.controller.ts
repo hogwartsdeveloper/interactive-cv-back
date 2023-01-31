@@ -30,6 +30,12 @@ export class LocalController extends BaseController implements ILocalController 
 				method: 'get',
 				func: this.get,
 			},
+			{
+				path: '/',
+				method: 'delete',
+				func: this.remove,
+				middlewares: [new AuthGuard(), new RoleGuard()],
+			},
 		]);
 	}
 
@@ -143,5 +149,65 @@ export class LocalController extends BaseController implements ILocalController 
 	async get(req: Request, res: Response, next: NextFunction): Promise<void> {
 		const result = await this.localService.getAll();
 		this.ok(res, { result });
+	}
+
+	/**
+	 * @swagger
+	 * /local:
+	 *   delete:
+	 *     description: delete local
+	 *     tags: [Local]
+	 *     produces:
+	 *       - application/json
+	 *     parameters:
+	 *       - name: id
+	 *         description: Local id
+	 *         in: query
+	 *         required: true
+	 *         type: number
+	 *     responses:
+	 *       200:
+	 *         description: registration
+	 *         content:
+	 *            application/json:
+	 *              schema:
+	 *                type: object
+	 *                properties:
+	 *                  id:
+	 *                    type: integer
+	 *                    description: The local id
+	 *                  code:
+	 *                    type: string
+	 *                    description: The local code
+	 *                  name:
+	 *                    type: object
+	 *                    properties:
+	 *                      id:
+	 *                        type: integer
+	 *                      en:
+	 *                        type: string
+	 *                      kz:
+	 *                        type: string
+	 *                      ru:
+	 *                        type: string
+	 *                      localId:
+	 *                        type: integer
+	 *     security:
+	 *       - bearerAuth: []
+	 */
+	async remove(req: Request, res: Response, next: NextFunction): Promise<void> {
+		const localId = req.query?.id;
+		if (!localId) {
+			return next(new HttpError(404, 'id parameter not found'));
+		}
+		try {
+			const result = await this.localService.remove(+localId);
+			this.ok(res, { result });
+		} catch (e) {
+			if (e instanceof Error) {
+				this.loggerService.error(e.message);
+				return next(new HttpError(500, 'Error delete'));
+			}
+		}
 	}
 }
