@@ -10,6 +10,7 @@ import { AuthGuard } from '../comman/auth.guard';
 import { ILocalService } from './service/local.service.interface';
 import { HttpError } from '../error/http-error.class';
 import { RoleGuard } from '../comman/role.guard';
+import { LocalUpdateDto } from './dto/local-update.dto';
 
 @injectable()
 export class LocalController extends BaseController implements ILocalController {
@@ -35,6 +36,12 @@ export class LocalController extends BaseController implements ILocalController 
 				method: 'delete',
 				func: this.remove,
 				middlewares: [new AuthGuard(), new RoleGuard()],
+			},
+			{
+				path: '/',
+				method: 'patch',
+				func: this.update,
+				middlewares: [new ValidateMiddleware(LocalUpdateDto), new AuthGuard(), new RoleGuard()],
 			},
 		]);
 	}
@@ -101,11 +108,11 @@ export class LocalController extends BaseController implements ILocalController 
 		res: Response,
 		next: NextFunction,
 	): Promise<void> {
-		const result: any = await this.localService.create(body);
+		const result = await this.localService.create(body);
 		if (!result) {
 			return next(new HttpError(422, 'Local exist'));
 		}
-		this.ok(res, { id: result.id, code: result.code, name: result?.name });
+		this.ok(res, { result });
 	}
 
 	/**
@@ -209,5 +216,77 @@ export class LocalController extends BaseController implements ILocalController 
 				return next(new HttpError(500, 'Error delete'));
 			}
 		}
+	}
+
+	/**
+	 * @swagger
+	 * /local:
+	 *   patch:
+	 *     description: Update local
+	 *     tags: [Local]
+	 *     produces:
+	 *       - application/json
+	 *     requestBody:
+	 *        required: true
+	 *        content:
+	 *          application/json:
+	 *            schema:
+	 *              type: object
+	 *              properties:
+	 *                id:
+	 *                  type: number
+	 *                  description: The local id
+	 *                code:
+	 *                  type: string
+	 *                  description: The local code.
+	 *                name:
+	 *                  type: object
+	 *                  properties:
+	 *                    en:
+	 *                      type: string
+	 *                    kz:
+	 *                      type: string
+	 *                    ru:
+	 *                      type: string
+	 *     responses:
+	 *       200:
+	 *         description: registration
+	 *         content:
+	 *            application/json:
+	 *              schema:
+	 *                type: object
+	 *                properties:
+	 *                  id:
+	 *                    type: integer
+	 *                    description: The local id
+	 *                  code:
+	 *                    type: string
+	 *                    description: The local code
+	 *                  name:
+	 *                    type: object
+	 *                    properties:
+	 *                      id:
+	 *                        type: integer
+	 *                      en:
+	 *                        type: string
+	 *                      kz:
+	 *                        type: string
+	 *                      ru:
+	 *                        type: string
+	 *                      localId:
+	 *                        type: integer
+	 *     security:
+	 *       - bearerAuth: []
+	 */
+	async update(
+		{ body }: Request<{}, {}, LocalUpdateDto>,
+		res: Response,
+		next: NextFunction,
+	): Promise<void> {
+		const result = await this.localService.update(body);
+		if (!result) {
+			return next(new HttpError(404, 'Local update error'));
+		}
+		this.ok(res, { result });
 	}
 }

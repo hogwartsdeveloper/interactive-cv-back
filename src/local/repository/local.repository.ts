@@ -30,4 +30,15 @@ export class LocalRepository implements ILocalRepository {
 	async remove(id: number): Promise<LocalModel | null> {
 		return this.prismaService.client.localModel.delete({ where: { id }, include: { name: true } });
 	}
+
+	async update(id: number, local: Local): Promise<LocalModel> {
+		return this.prismaService.client.localModel.update({
+			where: { id },
+			data: {
+				code: local.code,
+				name: { update: { en: local.name.en, kz: local.name.kz, ru: local.name.ru } },
+			},
+			include: { name: true },
+		});
+	}
 }

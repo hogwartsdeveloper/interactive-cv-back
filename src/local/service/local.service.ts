@@ -3,9 +3,9 @@ import { LocalCreateDto } from '../dto/local-create.dto';
 import { LocalModel } from '@prisma/client';
 import { inject, injectable } from 'inversify';
 import { types } from '../../types';
-import { LocalRepository } from '../repository/local.repository';
 import { Local } from '../entity/local.entity';
 import { ILocalRepository } from '../repository/local.repository.interface';
+import { LocalUpdateDto } from '../dto/local-update.dto';
 
 @injectable()
 export class LocalService implements ILocalService {
@@ -26,5 +26,10 @@ export class LocalService implements ILocalService {
 
 	async remove(id: number): Promise<LocalModel | null> {
 		return await this.localRepository.remove(id);
+	}
+
+	async update(local: LocalUpdateDto): Promise<LocalModel | null> {
+		const updateLocal = new Local(local.code, local.name);
+		return await this.localRepository.update(local.id, updateLocal);
 	}
 }

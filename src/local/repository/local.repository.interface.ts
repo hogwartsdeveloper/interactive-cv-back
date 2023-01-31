@@ -6,4 +6,5 @@ export interface ILocalRepository {
 	find: (code: string) => Promise<LocalModel | null>;
 	getAll: () => Promise<LocalModel[] | null>;
 	remove: (id: number) => Promise<LocalModel | null>;
+	update: (id: number, local: Local) => Promise<LocalModel | null>;
 }
