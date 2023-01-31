@@ -23,4 +23,8 @@ export class LocalService implements ILocalService {
 	async getAll(): Promise<LocalModel[] | null> {
 		return await this.localRepository.getAll();
 	}
+
+	async remove(id: number): Promise<LocalModel | null> {
+		return await this.localRepository.remove(id);
+	}
 }

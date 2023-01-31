@@ -26,4 +26,8 @@ export class LocalRepository implements ILocalRepository {
 	async find(code: string): Promise<LocalModel | null> {
 		return this.prismaService.client.localModel.findFirst({ where: { code } });
 	}
+
+	async remove(id: number): Promise<LocalModel | null> {
+		return this.prismaService.client.localModel.delete({ where: { id }, include: { name: true } });
+	}
 }

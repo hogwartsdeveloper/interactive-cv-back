@@ -30,7 +30,7 @@ model LocalName {
   en String
   kz String
   ru String
-  local LocalModel @relation(fields: [localId], references: [id])
+  local LocalModel @relation(fields: [localId], references: [id], onDelete: Cascade)
   localId Int @unique
 }
 
