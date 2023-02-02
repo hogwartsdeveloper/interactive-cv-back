@@ -2,9 +2,11 @@ FROM node
 
 WORKDIR /app
 
-COPY . .
+COPY package.json /app
 
-RUN npm install && npm run build
+RUN npm install && npx prisma migrate dev --name init && npm run build
+
+COPY . .
 
 EXPOSE 8000
 
