@@ -4,9 +4,11 @@ WORKDIR /app
 
 COPY package.json /app
 
-RUN npm install && npx prisma migrate dev --name init && npm run build
+RUN npm install
 
 COPY . .
+
+RUN npx prisma migrate dev --name init && npm run build
 
 EXPOSE 8000
 
