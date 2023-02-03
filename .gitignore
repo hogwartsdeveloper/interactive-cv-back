@@ -1,7 +1,4 @@
-/app/dist
-/app/node_modules
+/dist
+/node_modules
 /.idea
-/app/.env
 /.env
-/app/prisma/dev.db
-/app/prisma/dev.db-journal
