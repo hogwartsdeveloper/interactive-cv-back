@@ -8,7 +8,7 @@ RUN npm install
 
 COPY . .
 
-RUN npx prisma generate && npm run build
+RUN npx prisma migrate dev --name init && npm run build
 
 EXPOSE 8000
 

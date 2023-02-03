@@ -1,0 +1,19 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:15
+    ports:
+      - '2345:5432'
+    volumes:
+      - './postgres:/var/lib/postgresql/data/'
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "cv"
+    restart: always
+
+  app:
+    build: .
+    ports:
+      - "8000:8000"
