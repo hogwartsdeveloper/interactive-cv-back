@@ -1,4 +1,4 @@
-FROM node
+FROM node:18
 
 WORKDIR /app
 
@@ -8,7 +8,7 @@ RUN npm install
 
 COPY . .
 
-RUN npx prisma migrate dev --name init && npm run build
+RUN npm run build
 
 EXPOSE 8000
 
