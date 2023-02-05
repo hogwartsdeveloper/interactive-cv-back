@@ -65,4 +65,22 @@ describe("Local Service", () => {
     expect(res?.id).toEqual(1);
     expect(res?.code).toEqual("test");
   });
+
+  it("updateLocal", async () => {
+    localRepository.update = jest.fn().mockImplementationOnce(
+      (id: number, local: Local): LocalModel => ({
+        id,
+        code: local.code,
+      })
+    );
+
+    const res = await localService.update({
+      id: 1,
+      code: "test2",
+      name: { en: "", ru: "", kz: "" },
+    });
+
+    expect(res?.id).toEqual(1);
+    expect(res?.code).toEqual("test2");
+  });
 });
