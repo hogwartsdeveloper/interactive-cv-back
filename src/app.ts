@@ -14,6 +14,7 @@ import { ConfigService } from "./config/config.service";
 import { options } from "../swagger.config";
 import { LocalController } from "./local/local.controller";
 import { PrismaService } from "./database/prisma.service";
+import cors from "cors";
 
 @injectable()
 export class App {
@@ -57,7 +58,12 @@ export class App {
     );
   }
 
+  private useCors(): void {
+    this.app.use(cors({ origin: "*" }));
+  }
+
   public async init(): Promise<void> {
+    this.useCors();
     this.useSwagger();
     this.useMiddleware();
     this.useRoutes();
