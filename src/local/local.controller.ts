@@ -11,6 +11,7 @@ import { ILocalService } from "./service/local.service.interface";
 import { HttpError } from "../error/http-error.class";
 import { RoleGuard } from "../comman/role.guard";
 import { LocalUpdateDto } from "./dto/local-update.dto";
+import { Lang } from "./model/local.model";
 
 @injectable()
 export class LocalController
@@ -37,6 +38,11 @@ export class LocalController
         path: "/",
         method: "get",
         func: this.get,
+      },
+      {
+        path: "/:lang",
+        method: "get",
+        func: this.getLang,
       },
       {
         path: "/",
@@ -167,6 +173,48 @@ export class LocalController
   async get(req: Request, res: Response, next: NextFunction): Promise<void> {
     const result = await this.localService.getAll();
     this.ok(res, { result });
+  }
+
+  /**
+   * @swagger
+   * /local/{lang}:
+   *   get:
+   *     description: get local
+   *     tags: [Local]
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: lang
+   *         description: Local lang
+   *         in: path
+   *         required: true
+   *         type: string
+   *     responses:
+   *       200:
+   *         description: get local lang
+   *         content:
+   *            application/json:
+   *              schema:
+   *                type: object
+   *                properties:
+   *                  code:
+   *                    type: string
+   *                    description: The local code
+   *                  lang:
+   *                    type: string
+   *                    description: The local lang value
+   */
+  async getLang(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    const lang = req.params?.lang;
+    if (lang !== "en" && lang !== "kz" && lang !== "ru") {
+      return next(new HttpError(404, "Lang not found"));
+    }
+    const result = await this.localService.get(lang as Lang);
+    this.ok(res, result);
   }
 
   /**

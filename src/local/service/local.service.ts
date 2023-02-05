@@ -5,7 +5,7 @@ import { types } from "../../types";
 import { Local } from "../entity/local.entity";
 import { ILocalRepository } from "../repository/local.repository.interface";
 import { LocalUpdateDto } from "../dto/local-update.dto";
-import { LocalModelCustom } from "../model/local.model";
+import { Lang, LangTranslate, LocalModelCustom } from "../model/local.model";
 
 @injectable()
 export class LocalService implements ILocalService {
@@ -24,6 +24,18 @@ export class LocalService implements ILocalService {
 
   async getAll(): Promise<LocalModelCustom[] | null> {
     return await this.localRepository.getAll();
+  }
+
+  async get(lang: Lang): Promise<LangTranslate | null> {
+    const allLocal = await this.getAll();
+    const res: LangTranslate = {};
+    if (allLocal) {
+      allLocal.forEach((local) => {
+        res[local.code] = local?.name?.[lang] ?? "";
+      });
+      return res;
+    }
+    return null;
   }
 
   async remove(id: number): Promise<LocalModelCustom | null> {
