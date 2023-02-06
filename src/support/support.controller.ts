@@ -26,6 +26,37 @@ export class SupportController
       },
     ]);
   }
+
+  /**
+   * @swagger
+   * /api/support/pdf:
+   *   get:
+   *     description: get print PDF
+   *     tags: [Support]
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: url
+   *         description: site url
+   *         in: query
+   *         required: true
+   *         type: string
+   *     responses:
+   *       200:
+   *         description: get pdf buffer
+   *         content:
+   *            application/pdf:
+   *              schema:
+   *                type: object
+   *                properties:
+   *                  type:
+   *                    type: string
+   *                    description: The type
+   *                  data:
+   *                    type: array
+   *                    items:
+   *                      type: number
+   */
   async getPDF(req: Request, res: Response, next: NextFunction): Promise<void> {
     const url = req.query.url as string;
     if (!url) {
