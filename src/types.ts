@@ -11,4 +11,5 @@ export const types = {
   LocalRepository: Symbol.for("LocalRepository"),
   LocalService: Symbol.for("LocalService"),
   SupportController: Symbol.for("SupportController"),
+  SupportService: Symbol.for("SupportService"),
 };

@@ -22,6 +22,8 @@ import { ILocalService } from "./local/service/local.service.interface";
 import { LocalService } from "./local/service/local.service";
 import { ISupportController } from "./support/support.controller.interface";
 import { SupportController } from "./support/support.controller";
+import { ISupportService } from "./support/service/support.service.interface";
+import { SupportService } from "./support/service/support.service";
 
 export interface IBootstrapReturn {
   appContainer: Container;
@@ -43,6 +45,7 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
   bind<ILocalRepository>(types.LocalRepository).to(LocalRepository);
   bind<ILocalService>(types.LocalService).to(LocalService);
   bind<ISupportController>(types.SupportController).to(SupportController);
+  bind<ISupportService>(types.SupportService).to(SupportService);
 });
 
 async function bootstrap(): Promise<IBootstrapReturn> {
