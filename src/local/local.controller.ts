@@ -65,7 +65,7 @@ export class LocalController
 
   /**
    * @swagger
-   * /local:
+   * /api/local:
    *   post:
    *     description: Add local
    *     tags: [Local]
@@ -134,7 +134,7 @@ export class LocalController
 
   /**
    * @swagger
-   * /local:
+   * /api/local:
    *   get:
    *     description: Get all local
    *     tags: [Local]
@@ -177,7 +177,7 @@ export class LocalController
 
   /**
    * @swagger
-   * /local/{lang}:
+   * /api/local/{lang}:
    *   get:
    *     description: get local
    *     tags: [Local]
@@ -219,7 +219,7 @@ export class LocalController
 
   /**
    * @swagger
-   * /local:
+   * /api/local:
    *   delete:
    *     description: delete local
    *     tags: [Local]
@@ -279,7 +279,7 @@ export class LocalController
 
   /**
    * @swagger
-   * /local:
+   * /api/local:
    *   patch:
    *     description: Update local
    *     tags: [Local]

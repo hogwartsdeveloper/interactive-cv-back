@@ -15,6 +15,7 @@ import { options } from "../swagger.config";
 import { LocalController } from "./local/local.controller";
 import { PrismaService } from "./database/prisma.service";
 import cors from "cors";
+import { SupportController } from "./support/support.controller";
 
 @injectable()
 export class App {
@@ -26,6 +27,8 @@ export class App {
     @inject(types.Logger) private loggerService: ILogger,
     @inject(types.UserController) private userController: UserController,
     @inject(types.LocalController) private localController: LocalController,
+    @inject(types.SupportController)
+    private supportController: SupportController,
     @inject(types.ExceptionFilter) private exceptionFilter: ExceptionFilter,
     @inject(types.ConfigService) private configService: ConfigService,
     @inject(types.PrismaService) private prismaService: PrismaService
@@ -35,8 +38,9 @@ export class App {
   }
 
   private useRoutes(): void {
-    this.app.use("/user", this.userController.router);
-    this.app.use("/local", this.localController.router);
+    this.app.use("/api/user", this.userController.router);
+    this.app.use("/api/local", this.localController.router);
+    this.app.use("/api/support", this.supportController.router);
   }
 
   private useMiddleware(): void {
