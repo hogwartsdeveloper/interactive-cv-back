@@ -7,7 +7,8 @@ export class SupportService implements ISupportService {
   async printPDF(url: string): Promise<Buffer> {
     const browser = await puppeteer.launch({
       headless: true,
-      args: ["--disable-dev-shm-usage"],
+      args: ["--disable-dev-shm-usage", "--no-sandbox"],
+      executablePath: "/usr/bin/google-chrome",
     });
     const page = await browser.newPage();
     await page.goto(url, { waitUntil: "networkidle0" });
