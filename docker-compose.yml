@@ -9,9 +9,9 @@ services:
     volumes:
       - './postgres:/var/lib/postgresql/data/'
     environment:
-      POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "postgres"
-      POSTGRES_DB: "cv"
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB}
     restart: always
 
   app:
@@ -33,11 +33,11 @@ services:
     depends_on:
       - db
     image: dpage/pgadmin4
-    environment:
-      PGADMIN_DEFAULT_EMAIL: postgres@cv.kz
-      PGADMIN_DEFAULT_PASSWORD: 190901
     expose:
       - '80'
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
     restart: always
 
   nginx:
