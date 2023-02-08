@@ -55,14 +55,5 @@ services:
       - etc-letsencrypt:/etc/letsencrypt
     restart: always
 
-  certbot:
-    image: certbot/certbot
-    container_name: certbot
-    depends_on:
-      - nginx
-    volumes:
-      - etc-letsencrypt:/etc/letsencrypt
-    command: certonly --webroot --webroot-path=. --email jannuraidynuly@gmail.com --agree-tos --no-eff-email --staging -d back.sumurai.kz
-
 volumes:
   etc-letsencrypt:
