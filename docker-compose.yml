@@ -50,9 +50,21 @@ services:
     ports:
       - '80:80'
     volumes:
+      - www:/var/www
       - ./nginx:/etc/nginx/conf.d
       - etc-letsencrypt:/etc/letsencrypt
     restart: always
 
+  certbot:
+    image: certbot/certbot
+    depends_on:
+      - nginx
+    container_name: certbot
+    volumes:
+      - etc-letsencrypt:/etc/letsencrypt
+      - www:/var/www
+    command: certonly --webroot --webroot-path=/var/www --email jannuraidynuly@gmail.com --agree-tos --no-eff-email --staging -d back.sumurai.kz
+
 volumes:
+  www:
   etc-letsencrypt:
