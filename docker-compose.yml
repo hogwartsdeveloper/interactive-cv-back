@@ -46,7 +46,6 @@ services:
       - app
       - db
       - pgadmin
-      - certbot
     image: nginx:latest
     ports:
       - '80:80'
@@ -59,10 +58,11 @@ services:
   certbot:
     image: certbot/certbot
     container_name: certbot
+    depends_on:
+      - nginx
     volumes:
       - etc-letsencrypt:/etc/letsencrypt
     command: certonly --webroot --webroot-path=. --email jannuraidynuly@gmail.com --agree-tos --no-eff-email --staging -d back.sumurai.kz
 
 volumes:
-  www-html:
   etc-letsencrypt:
