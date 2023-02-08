@@ -52,5 +52,5 @@ services:
       - '443:443'
     volumes:
       - ./nginx:/etc/nginx/conf.d
-      - ./certbot/conf:/etc/letsencrypt
+      - ./letsencrypt:/etc/letsencrypt
     restart: always
