@@ -61,8 +61,7 @@ services:
     container_name: certbot
     volumes:
       - etc-letsencrypt:/etc/letsencrypt
-      - www-html:/var/www/html
-    command: certonly --webroot --email jannuraidynuly@gmail.com --agree-tos --no-eff-email --staging -d back.sumurai.kz
+    command: certonly --webroot --webroot-path=. --email jannuraidynuly@gmail.com --agree-tos --no-eff-email --staging -d back.sumurai.kz
 
 volumes:
   www-html:
