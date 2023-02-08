@@ -53,4 +53,7 @@ services:
     volumes:
       - ./nginx:/etc/nginx/conf.d
       - /etc/letsencrypt/options-ssl-nginx.conf:/etc/letsencrypt/options-ssl-nginx.conf
+      - /etc/letsencrypt/live/storerestapi.com/fullchain.pem:/etc/letsencrypt/live/storerestapi.com/fullchain.pem
+      - /etc/letsencrypt/live/storerestapi.com/privkey.pem:/etc/letsencrypt/live/storerestapi.com/privkey.pem
+      - /etc/letsencrypt/ssl-dhparams.pem:/etc/letsencrypt/ssl-dhparams.pem
     restart: always
