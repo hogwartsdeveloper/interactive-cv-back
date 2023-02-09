@@ -5,7 +5,7 @@ if ! [ -x "$(command -v docker-compose)" ]; then
   exit 1
 fi
 
-domains=(back.sumurai.kz www.back.sumurai.kz)
+domains=(back.sumurai.kz)
 rsa_key_size=4096
 data_path="./certbot"
 email="jannuraidynuly@gmail.com" # Adding a valid address is strongly recommended
